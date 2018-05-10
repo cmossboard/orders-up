@@ -15,5 +15,10 @@
   <%= @order.phone_number %>
 </p>
 
+<p>
+  <strong>Is Complete:</strong>
+  <%= @order.is_complete %>
+</p>
+
 <%= link_to 'Edit', edit_order_path(@order) %> |
 <%= link_to 'Back', orders_path %>
