@@ -4,7 +4,8 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all
+    @orders = Order.current_orders
+    @completed_orders = Order.completed_orders
   end
 
   # GET /orders/1
@@ -60,6 +61,13 @@ class OrdersController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def completed
+    @order = Order.find(params[:id])
+    @order.is_complete = true
+    @order.save
+    redirect_back fallback_location: orders_url
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -69,6 +77,6 @@ class OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:order_time, :name, :phone_number)
+      params.require(:order).permit(:order_time, :name, :phone_number, :is_complete)
     end
 end
